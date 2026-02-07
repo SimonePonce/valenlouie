@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Message</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 40px 20px;
+            animation: gradientShift 8s ease infinite;
+            background-size: 200% 200%;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 3.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 4px 8px rgba(0, 0, 0, 0.3);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .heart {
+            display: inline-block;
+            color: #ff69b4;
+            margin: 0 5px;
+            font-size: 1.2em;
+        }
+
+        .message-box {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 100%;
+            backdrop-filter: blur(10px);
+            border: 3px solid rgba(240, 147, 251, 0.5);
+            animation: slideUp 0.8s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message-box label {
+            display: block;
+            color: #764ba2;
+            font-weight: 600;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .message-display {
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.15), rgba(240, 147, 251, 0.15));
+            border-radius: 15px;
+            border: 2px solid rgba(240, 147, 251, 0.4);
+            min-height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .message-display p {
+            color: #764ba2;
+            font-size: 1.1em;
+            line-height: 1.8;
+            text-align: center;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .carousel-container {
+            width: 100%;
+            max-width: 900px;
+            margin-top: 50px;
+        }
+
+        .carousel {
+            position: relative;
+            width: 100%;
+            height: 250px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+        }
+
+        .carousel-slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out;
+        }
+
+        .carousel-slide.active {
+            opacity: 1;
+        }
+
+        .carousel-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .carousel-control {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.7);
+            color: #764ba2;
+            border: none;
+            font-size: 1.5em;
+            padding: 15px 20px;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .carousel-control:hover {
+            background: rgba(255, 255, 255, 0.95);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .carousel-prev {
+            left: 15px;
+        }
+
+        .carousel-next {
+            right: 15px;
+        }
+
+        .carousel-dots {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+        }
+
+        .dot.active {
+            background: #ff69b4;
+            transform: scale(1.3);
+        }
+
+        .carousel-slide.placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.3), rgba(240, 147, 251, 0.3));
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.1em;
+        }
+
+        footer {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.95em;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1><span class="heart">💜</span> Happy Valentine's Day <span class="heart">💜</span></h1>
+    </div>
+
+    <div class="message-box">
+        <div class="message-display">
+            <p id="messageText">💕 Happy Valentine's Day, my love! Every moment with you is a treasure, and I'm so grateful for all the memories we've created together. You make my world brighter and my heart fuller. Thank you for being the most amazing person in my life. I love you more than words could ever express. 💕</p>
+        </div>
+    </div>
+
+    <div class="carousel-container">
+        <div class="carousel">
+            <div class="carousel-slide active placeholder">
+                <span>Image 1</span>
+            </div>
+            <div class="carousel-slide placeholder">
+                <span>Image 2</span>
+            </div>
+            <div class="carousel-slide placeholder">
+                <span>Image 3</span>
+            </div>
+            <div class="carousel-slide placeholder">
+                <span>Image 4</span>
+            </div>
+            <div class="carousel-slide placeholder">
+                <span>Image 5</span>
+            </div>
+            <div class="carousel-slide placeholder">
+                <span>Image 6</span>
+            </div>
+            <div class="carousel-slide placeholder">
+                <span>Image 7</span>
+            </div>
+            <div class="carousel-slide placeholder">
+                <span>Image 8</span>
+            </div>
+
+            <button class="carousel-control carousel-prev" onclick="prevSlide()">❮</button>
+            <button class="carousel-control carousel-next" onclick="nextSlide()">❯</button>
+
+            <div class="carousel-dots">
+                <span class="dot active" onclick="currentSlide(0)"></span>
+                <span class="dot" onclick="currentSlide(1)"></span>
+                <span class="dot" onclick="currentSlide(2)"></span>
+                <span class="dot" onclick="currentSlide(3)"></span>
+                <span class="dot" onclick="currentSlide(4)"></span>
+                <span class="dot" onclick="currentSlide(5)"></span>
+                <span class="dot" onclick="currentSlide(6)"></span>
+                <span class="dot" onclick="currentSlide(7)"></span>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        Made with <span class="heart">💜</span> for you
+    </footer>
+
+    <script>
+        let currentIndex = 0;
+        const slides = document.querySelectorAll('.carousel-slide');
+        const dots = document.querySelectorAll('.dot');
+        const totalSlides = slides.length;
+
+        function showSlide(index) {
+            if (index >= totalSlides) {
+                currentIndex = 0;
+            } else if (index < 0) {
+                currentIndex = totalSlides - 1;
+            } else {
+                currentIndex = index;
+            }
+
+            slides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+
+            slides[currentIndex].classList.add('active');
+            dots[currentIndex].classList.add('active');
+        }
+
+        function nextSlide() {
+            showSlide(currentIndex + 1);
+            resetAutoSlide();
+        }
+
+        function prevSlide() {
+            showSlide(currentIndex - 1);
+            resetAutoSlide();
+        }
+
+        function currentSlide(index) {
+            showSlide(index);
+            resetAutoSlide();
+        }
+
+        let autoSlideInterval;
+
+        function autoSlide() {
+            showSlide(currentIndex + 1);
+        }
+
+        function startAutoSlide() {
+            autoSlideInterval = setInterval(autoSlide, 4000);
+        }
+
+        function resetAutoSlide() {
+            clearInterval(autoSlideInterval);
+            startAutoSlide();
+        }
+
+        // Replace placeholder images with your own image URLs
+        function loadImages(imageUrls) {
+            imageUrls.forEach((url, index) => {
+                if (slides[index]) {
+                    slides[index].classList.remove('placeholder');
+                    slides[index].innerHTML = `<img src="${url}" alt="Image ${index + 1}">`;
+                }
+            });
+        }
+
+        // Start auto-slide on page load
+        startAutoSlide();
+
+        // Example: Replace placeholder with actual images
+        // Uncomment and add your image URLs below:
+        // loadImages([
+        //     'https://example.com/image1.jpg',
+        //     'https://example.com/image2.jpg',
+        //     'https://example.com/image3.jpg',
+        //     'https://example.com/image4.jpg',
+        //     'https://example.com/image5.jpg',
+        //     'https://example.com/image6.jpg',
+        //     'https://example.com/image7.jpg',
+        //     'https://example.com/image8.jpg'
+        // ]);
+    </script>
+</body>
+</html>
