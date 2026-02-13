@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be My Valentine?</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'Garamond', serif;
+            background: linear-gradient(135deg, #FFB6D9 0%, #FFC0D9 50%, #FFD4E5 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            animation: gradientShift 8s ease infinite;
+            background-size: 200% 200%;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .flower {
+            position: fixed;
+            width: 40px;
+            height: 40px;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.85;
+            bottom: -50px;
+        }
+
+        /* CSS Petal designs */
+        .flower::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 30%, #ff69b4, #ff1493);
+            border-radius: 50% 0 50% 50%;
+            transform: rotate(45deg);
+        }
+
+        .flower::after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 50%;
+            background: #ffd700;
+            border-radius: 50%;
+            top: 25%;
+            left: 25%;
+            z-index: 2;
+        }
+
+        .flower-type-2::before {
+            background: radial-gradient(circle at 30% 30%, #ff69b4, #ff69b4);
+            border-radius: 50% 0 50% 50%;
+        }
+
+        .flower-type-3::before {
+            background: radial-gradient(circle at 30% 30%, #ff1493, #c71585);
+            border-radius: 50% 0 50% 50%;
+        }
+
+        @keyframes bloom {
+            0% {
+                transform: scale(0) translateY(0);
+                opacity: 0;
+                bottom: -50px;
+            }
+            10% {
+                opacity: 0.85;
+                bottom: -40px;
+            }
+            90% {
+                opacity: 0.85;
+            }
+            100% {
+                transform: scale(1) translateY(-120vh);
+                opacity: 0;
+                bottom: calc(-50px + 120vh);
+            }
+        }
+
+        .flower-1 { animation: bloom 8s ease-in 0s infinite; left: 5%; }
+        .flower-2 { animation: bloom 10s ease-in 1s infinite; left: 10%; }
+        .flower-3 { animation: bloom 9s ease-in 2s infinite; left: 15%; }
+        .flower-4 { animation: bloom 11s ease-in 1.5s infinite; left: 20%; }
+        .flower-5 { animation: bloom 8.5s ease-in 3s infinite; left: 25%; }
+        .flower-6 { animation: bloom 10s ease-in 2.5s infinite; left: 30%; }
+        .flower-7 { animation: bloom 9.5s ease-in 1s infinite; left: 35%; }
+        .flower-8 { animation: bloom 11s ease-in 3.5s infinite; left: 40%; }
+        .flower-9 { animation: bloom 8s ease-in 2s infinite; left: 45%; }
+        .flower-10 { animation: bloom 10s ease-in 0.5s infinite; left: 50%; }
+        .flower-11 { animation: bloom 9s ease-in 2.8s infinite; left: 55%; }
+        .flower-12 { animation: bloom 11s ease-in 1.2s infinite; left: 60%; }
+        .flower-13 { animation: bloom 8s ease-in 1.8s infinite; left: 65%; }
+        .flower-14 { animation: bloom 10s ease-in 2.3s infinite; left: 70%; }
+        .flower-15 { animation: bloom 9.5s ease-in 0.8s infinite; left: 75%; }
+        .flower-16 { animation: bloom 11s ease-in 3.2s infinite; left: 80%; }
+        .flower-17 { animation: bloom 8.5s ease-in 1.5s infinite; left: 85%; }
+        .flower-18 { animation: bloom 10s ease-in 2.1s infinite; left: 90%; }
+
+        .valentine-container {
+            position: relative;
+            z-index: 10;
+        }
+
+        .valentine-box {
+            background: linear-gradient(135deg, #FFF8F3 0%, #FFEAEA 100%);
+            border-radius: 2px;
+            padding: 60px 50px;
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.25),
+                inset 0 0 40px rgba(0, 0, 0, 0.05),
+                inset -2px -2px 3px rgba(0, 0, 0, 0.1),
+                inset 2px 2px 3px rgba(255, 255, 255, 0.8);
+            max-width: 500px;
+            width: 100%;
+            border: 1px solid rgba(194, 24, 91, 0.3);
+            animation: slideUp 0.8s ease;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .valentine-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(194, 24, 91, 0.03) 2px, rgba(194, 24, 91, 0.03) 4px),
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(194, 24, 91, 0.02) 2px, rgba(194, 24, 91, 0.02) 4px);
+            pointer-events: none;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .valentine-box h1 {
+            color: #C2185B;
+            font-size: 2.2em;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .heart {
+            color: #E91E63;
+            margin: 0 10px;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+            flex-wrap: wrap;
+        }
+
+        .valentine-btn {
+            background: linear-gradient(135deg, #ff69b4 0%, #e91e63 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1em;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Georgia', 'Garamond', serif;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(233, 30, 99, 0.4);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .valentine-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 12px 30px rgba(233, 30, 99, 0.6);
+        }
+
+        .valentine-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .valentine-btn.secondary {
+            background: linear-gradient(135deg, #e91e63 0%, #c2185b 100%);
+        }
+    </style>
+</head>
+<body>
+    <div class="flower flower-1"></div>
+    <div class="flower flower-2 flower-type-2"></div>
+    <div class="flower flower-3 flower-type-3"></div>
+    <div class="flower flower-4"></div>
+    <div class="flower flower-5 flower-type-2"></div>
+    <div class="flower flower-6 flower-type-3"></div>
+    <div class="flower flower-7"></div>
+    <div class="flower flower-8 flower-type-2"></div>
+    <div class="flower flower-9 flower-type-3"></div>
+    <div class="flower flower-10"></div>
+    <div class="flower flower-11 flower-type-2"></div>
+    <div class="flower flower-12 flower-type-3"></div>
+    <div class="flower flower-13"></div>
+    <div class="flower flower-14 flower-type-2"></div>
+    <div class="flower flower-15 flower-type-3"></div>
+    <div class="flower flower-16"></div>
+    <div class="flower flower-17 flower-type-2"></div>
+    <div class="flower flower-18 flower-type-3"></div>
+
+    <div class="valentine-container">
+        <div class="valentine-box">
+            <h1><span class="heart"></span> Will You Be My Valentine? <span class="heart"></span></h1>
+            <div class="button-container">
+                <a href="index.html" class="valentine-btn">Yes</a>
+                <a href="index.html" class="valentine-btn secondary">Of Course</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
