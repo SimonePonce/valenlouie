@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Message</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'Garamond', serif;
+            background: linear-gradient(135deg, #FFB6D9 0%, #FFC0D9 50%, #FFD4E5 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 40px 20px;
+            animation: gradientShift 8s ease infinite;
+            background-size: 200% 200%;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .header h1 {
+            font-size: 3.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 4px 8px rgba(0, 0, 0, 0.3);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .heart {
+            display: inline-block;
+            color: #E91E63;
+            margin: 0 5px;
+            font-size: 1.2em;
+        }
+
+        .message-box {
+            background: linear-gradient(135deg, #FFF8F3 0%, #FFEAEA 100%);
+            border-radius: 2px;
+            padding: 60px 50px;
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.25),
+                inset 0 0 40px rgba(0, 0, 0, 0.05),
+                inset -2px -2px 3px rgba(0, 0, 0, 0.1),
+                inset 2px 2px 3px rgba(255, 255, 255, 0.8);
+            max-width: 750px;
+            width: 100%;
+            backdrop-filter: none;
+            border: 1px solid rgba(194, 24, 91, 0.3);
+            animation: slideUp 0.8s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 10;
+        }
+        
+        .message-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(194, 24, 91, 0.03) 2px, rgba(194, 24, 91, 0.03) 4px),
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(194, 24, 91, 0.02) 2px, rgba(194, 24, 91, 0.02) 4px);
+            pointer-events: none;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message-box label {
+            display: block;
+            color: #C2185B;
+            font-weight: 600;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .message-display {
+            padding: 0;
+            background: transparent;
+            border-radius: 0;
+            border: none;
+            min-height: auto;
+            display: block;
+            position: relative;
+            z-index: 1;
+        }
+
+        .message-display p {
+            color: #6B4423;
+            font-size: 1em;
+            line-height: 1.9;
+            text-align: left;
+            font-weight: normal;
+            letter-spacing: 0.3px;
+            margin-bottom: 18px;
+            font-family: 'Georgia', 'Garamond', serif;
+        }
+
+        .carousel-container {
+            width: 100%;
+            max-width: 900px;
+            margin-top: 50px;
+        }
+
+        .carousel {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(135deg, rgba(255, 192, 217, 0.4), rgba(255, 212, 229, 0.4));
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+        }
+
+        .carousel-slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .carousel-slide.active {
+            opacity: 1;
+        }
+
+        .carousel-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center;
+            display: block;
+        }
+
+        .carousel-control {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.7);
+            color: #C2185B;
+            border: none;
+            font-size: 1.5em;
+            padding: 15px 20px;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .carousel-control:hover {
+            background: rgba(255, 255, 255, 0.95);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .carousel-prev {
+            left: 15px;
+        }
+
+        .carousel-next {
+            right: 15px;
+        }
+
+        .carousel-dots {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+        }
+
+        .dot.active {
+            background: #E91E63;
+            transform: scale(1.3);
+        }
+
+        .carousel-slide.placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.3), rgba(240, 147, 251, 0.3));
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.1em;
+        }
+
+        footer {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.95em;
+            margin-top: 30px;
+        }
+
+        .flower {
+            position: fixed;
+            width: 40px;
+            height: 40px;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.85;
+            bottom: -50px;
+        }
+
+        /* CSS Petal designs */
+        .flower::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 30%, #ff69b4, #ff1493);
+            border-radius: 50% 0 50% 50%;
+            transform: rotate(45deg);
+        }
+
+        .flower::after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 50%;
+            background: #ffd700;
+            border-radius: 50%;
+            top: 25%;
+            left: 25%;
+            z-index: 2;
+        }
+
+        .flower-type-2::before {
+            background: radial-gradient(circle at 30% 30%, #ff69b4, #ff69b4);
+            border-radius: 50% 0 50% 50%;
+        }
+
+        .flower-type-3::before {
+            background: radial-gradient(circle at 30% 30%, #ff1493, #c71585);
+            border-radius: 50% 0 50% 50%;
+        }
+
+        @keyframes bloom {
+            0% {
+                transform: scale(0) translateY(0);
+                opacity: 0;
+                bottom: -50px;
+            }
+            10% {
+                opacity: 0.85;
+                bottom: -40px;
+            }
+            90% {
+                opacity: 0.85;
+            }
+            100% {
+                transform: scale(1) translateY(-120vh);
+                opacity: 0;
+                bottom: calc(-50px + 120vh);
+            }
+        }
+
+        @keyframes sway {
+            0%, 100% { transform: translateX(0) translateY(0); }
+            25% { transform: translateX(30px) translateY(-25vh); }
+            50% { transform: translateX(0) translateY(-50vh); }
+            75% { transform: translateX(-30px) translateY(-75vh); }
+        }
+
+        .flower-1 { animation: bloom 8s ease-in 0s infinite; left: 5%; }
+        .flower-2 { animation: bloom 10s ease-in 1s infinite; left: 10%; }
+        .flower-3 { animation: bloom 9s ease-in 2s infinite; left: 15%; }
+        .flower-4 { animation: bloom 11s ease-in 1.5s infinite; left: 20%; }
+        .flower-5 { animation: bloom 8.5s ease-in 3s infinite; left: 25%; }
+        .flower-6 { animation: bloom 10s ease-in 2.5s infinite; left: 30%; }
+        .flower-7 { animation: bloom 9.5s ease-in 1s infinite; left: 35%; }
+        .flower-8 { animation: bloom 11s ease-in 3.5s infinite; left: 40%; }
+        .flower-9 { animation: bloom 8s ease-in 2s infinite; left: 45%; }
+        .flower-10 { animation: bloom 10s ease-in 0.5s infinite; left: 50%; }
+        .flower-11 { animation: bloom 9s ease-in 2.8s infinite; left: 55%; }
+        .flower-12 { animation: bloom 11s ease-in 1.2s infinite; left: 60%; }
+        .flower-13 { animation: bloom 8s ease-in 1.8s infinite; left: 65%; }
+        .flower-14 { animation: bloom 10s ease-in 2.3s infinite; left: 70%; }
+        .flower-15 { animation: bloom 9.5s ease-in 0.8s infinite; left: 75%; }
+        .flower-16 { animation: bloom 11s ease-in 3.2s infinite; left: 80%; }
+        .flower-17 { animation: bloom 8.5s ease-in 1.5s infinite; left: 85%; }
+        .flower-18 { animation: bloom 10s ease-in 2.1s infinite; left: 90%; }
+        .flower-19 { animation: bloom 9s ease-in 0.3s infinite; left: 8%; }
+        .flower-20 { animation: bloom 11s ease-in 2.9s infinite; left: 38%; }
+        .flower-21 { animation: bloom 8s ease-in 2.5s infinite; left: 68%; }
+        .flower-22 { animation: bloom 10.5s ease-in 1.7s infinite; left: 18%; }
+        .flower-23 { animation: bloom 9s ease-in 3.1s infinite; left: 52%; }
+        .flower-24 { animation: bloom 11s ease-in 0.7s infinite; left: 82%; }
+    </style>
+</head>
+<body>
+    <div class="flower flower-1"></div>
+    <div class="flower flower-2 flower-type-2"></div>
+    <div class="flower flower-3 flower-type-3"></div>
+    <div class="flower flower-4"></div>
+    <div class="flower flower-5 flower-type-2"></div>
+    <div class="flower flower-6 flower-type-3"></div>
+    <div class="flower flower-7"></div>
+    <div class="flower flower-8 flower-type-2"></div>
+    <div class="flower flower-9 flower-type-3"></div>
+    <div class="flower flower-10"></div>
+    <div class="flower flower-11 flower-type-2"></div>
+    <div class="flower flower-12 flower-type-3"></div>
+    <div class="flower flower-13"></div>
+    <div class="flower flower-14 flower-type-2"></div>
+    <div class="flower flower-15 flower-type-3"></div>
+    <div class="flower flower-16"></div>
+    <div class="flower flower-17 flower-type-2"></div>
+    <div class="flower flower-18 flower-type-3"></div>
+    <div class="flower flower-19"></div>
+    <div class="flower flower-20 flower-type-2"></div>
+    <div class="flower flower-21 flower-type-3"></div>
+    <div class="flower flower-22"></div>
+    <div class="flower flower-23 flower-type-2"></div>
+    <div class="flower flower-24 flower-type-3"></div>
+    <div class="header">
+        <h1><span class="heart"></span> Happy Valentine's Day <span class="heart"></span></h1>
+    </div>
+
+    <div class="message-box">
+        <div class="message-display">
+            <div id="messageText">
+                <p style="margin-bottom: 20px;"><strong>Happy Valentine's Day, my babi.</strong></p>
+                <p style="margin-bottom: 15px;">I want to thank you for everything you have done for me and for all the love you continue to give. Maria Theresa Casanes, you are truly a blessing in my life. As a future educator, I admire your passion, intelligence, and dedication. You are independent, strong, caring, and mature, and all the beautiful characteristics of a good woman are in you.</p>
+                <p style="margin-bottom: 15px;">Babi, I want you to know that I do not see you as just a girlfriend. When I look at you, I see my future wife, my lifelong partner, and the woman I want to build my life with. Thank you for always being there for me, for patiently fetching me from school and bringing me home, and for supporting me without ever pressuring me. I appreciate every sacrifice and every effort you make. None of it goes unnoticed.</p>
+                <p style="margin-bottom: 15px;">Because of you, I feel loved, understood, and motivated to become a better man. Your patience, kindness, and unconditional care mean everything to me. You respect my pace, encourage my dreams, and stand by my side no matter what. With you, I feel safe and at peace.</p>
+                <p style="margin-bottom: 15px;">Thank you, babi, for all the love and support you give. I cherish you deeply and I am proud of the amazing woman you are and the future educator you are becoming. I hope to give you the same happiness and care that you give me every day. You are precious to me, and I will always treasure you as the woman I want to spend my life with.</p>
+                <p><strong>Happy Valentine's Day, my babi. I love you always. </strong></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="carousel-container">
+        <div class="carousel">
+            <div class="carousel-slide active">
+                <img src="1 (2).jpg" alt="Memory 1">
+            </div>
+            <div class="carousel-slide">
+                <img src="12.jpg" alt="Memory 2">
+            </div>
+            <div class="carousel-slide">
+                <img src="13.jpg" alt="Memory 3">
+            </div>
+            <div class="carousel-slide">
+                <img src="14.jpg" alt="Memory 4">
+            </div>
+            <div class="carousel-slide">
+                <img src="32.jpg" alt="Memory 5">
+            </div>
+            <div class="carousel-slide">
+                <img src="42.jpg" alt="Memory 6">
+            </div>
+            <div class="carousel-slide">
+                <img src="44.jpg" alt="Memory 7">
+            </div>
+            <div class="carousel-slide">
+                <img src="51.jpg" alt="Memory 8">
+            </div>
+
+            <button class="carousel-control carousel-prev" onclick="prevSlide()">❮</button>
+            <button class="carousel-control carousel-next" onclick="nextSlide()">❯</button>
+
+            <div class="carousel-dots">
+                <span class="dot active" onclick="currentSlide(0)"></span>
+                <span class="dot" onclick="currentSlide(1)"></span>
+                <span class="dot" onclick="currentSlide(2)"></span>
+                <span class="dot" onclick="currentSlide(3)"></span>
+                <span class="dot" onclick="currentSlide(4)"></span>
+                <span class="dot" onclick="currentSlide(5)"></span>
+                <span class="dot" onclick="currentSlide(6)"></span>
+                <span class="dot" onclick="currentSlide(7)"></span>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        Made with <span class="heart">Love</span> for you -louie
+    </footer>
+
+    <script>
+        let currentIndex = 0;
+        const slides = document.querySelectorAll('.carousel-slide');
+        const dots = document.querySelectorAll('.dot');
+        const totalSlides = slides.length;
+
+        function showSlide(index) {
+            if (index >= totalSlides) {
+                currentIndex = 0;
+            } else if (index < 0) {
+                currentIndex = totalSlides - 1;
+            } else {
+                currentIndex = index;
+            }
+
+            slides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+
+            slides[currentIndex].classList.add('active');
+            dots[currentIndex].classList.add('active');
+        }
+
+        function nextSlide() {
+            showSlide(currentIndex + 1);
+            resetAutoSlide();
+        }
+
+        function prevSlide() {
+            showSlide(currentIndex - 1);
+            resetAutoSlide();
+        }
+
+        function currentSlide(index) {
+            showSlide(index);
+            resetAutoSlide();
+        }
+
+        let autoSlideInterval;
+
+        function autoSlide() {
+            showSlide(currentIndex + 1);
+        }
+
+        function startAutoSlide() {
+            autoSlideInterval = setInterval(autoSlide, 4000);
+        }
+
+        function resetAutoSlide() {
+            clearInterval(autoSlideInterval);
+            startAutoSlide();
+        }
+
+        // Replace placeholder images with your own image URLs
+        function loadImages(imageUrls) {
+            imageUrls.forEach((url, index) => {
+                if (slides[index]) {
+                    slides[index].classList.remove('placeholder');
+                    slides[index].innerHTML = `<img src="${url}" alt="Image ${index + 1}">`;
+                }
+            });
+        }
+
+        // Start auto-slide on page load
+        startAutoSlide();
+
+        // Example: Replace placeholder with actual images
+        // Uncomment and add your image URLs below:
+        // loadImages([
+        //     'https://example.com/image1.jpg',
+        //     'https://example.com/image2.jpg',
+        //     'https://example.com/image3.jpg',
+        //     'https://example.com/image4.jpg',
+        //     'https://example.com/image5.jpg',
+        //     'https://example.com/image6.jpg',
+        //     'https://example.com/image7.jpg',
+        //     'https://example.com/image8.jpg'
+        // ]);
+    </script>
+</body>
+</html>
